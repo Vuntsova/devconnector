@@ -5,5 +5,5 @@
 #### npm i -D nodemon concurrently
 
 #### create .gitignore
-#### add "node_modules/" to it
+  ###### add "node_modules/" to it
 

@@ -10,6 +10,11 @@ const User = require('../../models/User');
 // @route    POST api/users
 // @desc     Register user
 // @access   Public
+// example:
+// app.post('handle',function(request,response){
+//   var query1=request.body.var1;
+//   var query2=request.body.var2;
+//   });
 router.post(
   '/',
   [
@@ -21,6 +26,7 @@ router.post(
   ],
   async (req, res) => {
     const errors = validationResult(req);
+    console.log(req.body);
 
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -43,7 +49,7 @@ router.post(
 
       user = new User({
         name,
-        email,
+        email: email.toLowerCase(),
         avatar,
         password
       });
@@ -58,20 +64,33 @@ router.post(
           id: user.id
         }
       };
+      console.log(JSON.stringify(payload));
       jwt.sign(
-        payload,
+        {
+          user: {
+            id: user.id
+          }
+        },
         config.get('jwtSercret'),
-        { expiresIn: '1h' },
+        { expiresIn: '1100h' },
         (err, token) => {
           if (err) throw err;
           res.json({ token });
         }
       );
+
+      // const decoded = jwt.verify(this.token, config.get('jwtSercret'));
+      // console.log('=========');
+
+      // console.log(decoded);
+      // console.log('=========');
+      // console.log(user.id);
+      // console.log(': ');
+      // console.log(req.header('x-auth-token'));
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server error');
+      res.status(500).send('Server error HERE');
     }
   }
 );
-
 module.exports = router;

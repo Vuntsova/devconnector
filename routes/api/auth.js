@@ -3,6 +3,8 @@ const router = express.Router();
 const Auth = require('../../middleware/auth');
 const User = require('../../models/User');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const config = require('config');
 
 const { check, validationResult } = require('express-validator');
 
@@ -45,9 +47,25 @@ router.post(
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
-    isMatch
-      ? res.json({ msg: 'Loged in' })
-      : res.status(400).json({ errors: [{ msg: 'Invalid Credentials' }] });
+    if (!isMatch) {
+      res.status(400).json({ errors: [{ msg: 'Invalid Credentials' }] });
+    }
+
+    const playload = {
+      user: {
+        id: user.id
+      }
+    };
+
+    jwt.sign(
+      playload,
+      config.get('jwtSercret'),
+      { expiresIn: '1100h' },
+      (err, token) => {
+        if (err) throw err;
+        res.json({ token });
+      }
+    );
   }
 );
 

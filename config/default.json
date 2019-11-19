@@ -1,4 +1,6 @@
 {
   "mongoURI": "mongodb+srv://vuntsova:123123Ee@devconnector-mmap9.mongodb.net/test?retryWrites=true&w=majority",
-  "jwtSercret": "thisSecret"
+  "jwtSercret": "thisSecret",
+  "githubClientId": "dec8b9e3aeaf7f595e8a",
+  "githubSecret": "9c6058ab4567fa367c6a694815f81476bf310302"
 }

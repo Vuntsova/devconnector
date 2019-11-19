@@ -25,6 +25,7 @@ router.post(
     check('password').isLength({ min: 6 })
   ],
   async (req, res) => {
+    console.log('Resgister User');
     const errors = validationResult(req);
     console.log(req.body);
 
@@ -33,6 +34,7 @@ router.post(
     }
 
     const { name, email, password } = req.body;
+    console.log(name, email, password);
 
     try {
       let user = await User.findOne({ email });
@@ -78,15 +80,6 @@ router.post(
           res.json({ token });
         }
       );
-
-      // const decoded = jwt.verify(this.token, config.get('jwtSercret'));
-      // console.log('=========');
-
-      // console.log(decoded);
-      // console.log('=========');
-      // console.log(user.id);
-      // console.log(': ');
-      // console.log(req.header('x-auth-token'));
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server error HERE');

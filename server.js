@@ -1,7 +1,7 @@
 const express = require('express');
 const connectDB = require('./config/db');
 const app = express();
-
+const cors = require('cors');
 const users = require('./routes/api/users');
 const auth = require('./routes/api/auth');
 const profile = require('./routes/api/profile');
@@ -16,6 +16,7 @@ connectDB();
 // app.use(express.json());
 // express.urlencoded() is a method inbuilt in express to recognize
 // the incoming Request Object as strings or arrays.
+app.use(cors());
 app.use(express.json({ extended: false }));
 
 // console.log(`what si this : ${express.json({ extended: false })}`);
